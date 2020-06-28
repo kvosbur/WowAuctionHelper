@@ -1,17 +1,17 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from DBModels import Base
 
 
-class ItemClass(Base):
-    __tablename__ = "item_class"
+class ItemSubClass(Base):
+    __tablename__ = "item_subclass"
 
-    classId = Column(Integer, primary_key=True)
-    parentClassId = Column(Integer, nullable=True)
+    subClassId = Column(Integer, primary_key=True)
+    classId = Column(Integer, ForeignKey("item_class.classId"))
     name = Column(String)
 
-    def __init__(self, classId: int, parentClassId: int, name: str):
+    def __init__(self, subClassId: int, classId: int, name: str):
+        self.subClassId = subClassId
         self.classId = classId
-        self.parentClassId = parentClassId
         self.name = name
 
 
