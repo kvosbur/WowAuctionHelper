@@ -1,13 +1,14 @@
 from sqlalchemy import Column, Integer, ForeignKey, DateTime
 from DBModels import Base
 from datetime import datetime
+from DBModels.Item import Item
 
 
 class Auction(Base):
     __tablename__ = "auctions"
 
     auctionId = Column(Integer, primary_key=True)
-    itemId = Column(Integer, ForeignKey("items.itemId"))
+    itemId = Column(Integer, ForeignKey(Item.itemId))
     quantity = Column(Integer)
     buyout = Column(Integer)
     unitPrice = Column(Integer)

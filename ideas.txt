@@ -1,0 +1,7 @@
+make website to support looking at data.
+Extensions:
+Make website for guild use in general
+add mythic key tracking functionality to the site.
+dungeon drop loot functionality (recommend dungeons)
+
+# Character Equipment API can get current ilvl of gear
