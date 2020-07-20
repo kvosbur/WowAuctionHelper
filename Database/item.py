@@ -1,5 +1,6 @@
 from Database import session
-from DBModels import Item, ItemClass, ItemSubClass, Media
+from DBModels import Item, ItemClass, ItemSubClass, Media, PlayerClass, PlayerClassSpecialization
+from DBModels import AzeriteTrait, ClassSpecializationAzeriteRelation, AzeriteItem
 from Models import itemclass, itemsubclass
 from typing import List
 from GatherData.GetItemData import get_item_data
@@ -43,11 +44,63 @@ def organizeStats(raw_stats):
     return ret
 
 
+def addPlayerClassIfNotPresent(class_name, class_id):
+    if session.query(PlayerClass.PlayerClass).filter(PlayerClass.PlayerClass.playerClassId == class_id).first() is not None:
+        return
+    player_class_obj = PlayerClass.PlayerClass(class_id, class_name)
+    session.add(player_class_obj)
+    session.commit()
+
+
+def addPlayerClassSpecializationIfNotPresent(class_id, spec_id, spec_name):
+    if session.query(PlayerClassSpecialization.PlayerClassSpecialization).filter(
+            PlayerClassSpecialization.PlayerClassSpecialization.playerClassSpecId == spec_id).first() is not None:
+        return
+    spec_class_obj = PlayerClassSpecialization.PlayerClassSpecialization(spec_id, class_id, spec_name)
+    session.add(spec_class_obj)
+    session.commit()
+
+
+def addAzeriteTraitsForClass(item_id, traits_json, player_class_id):
+    for trait in traits_json:
+        power_id = trait["spell"]["id"]
+        if session.query(AzeriteTrait.AzeriteTrait).filter(
+                AzeriteTrait.AzeriteTrait.power_id == power_id).first() is not None:
+            return
+
+        tier = trait["tier"]
+        name = trait["spell"]["name"]
+        azerite_obj = AzeriteTrait.AzeriteTrait(power_id, tier, name, player_class_id)
+        session.add(azerite_obj)
+
+        session.commit()
+
+        if "allowed_specializations" in trait:
+            for spec in trait["allowed_specializations"]:
+                player_class_spec_id = spec["id"]
+                player_class_spec_name = spec["name"]
+                addPlayerClassSpecializationIfNotPresent(player_class_id, player_class_spec_id, player_class_spec_name)
+                relation = ClassSpecializationAzeriteRelation.AzeriteClassSpecialization(player_class_spec_id, power_id)
+                session.add(relation)
+
+        azerite_item_obj = AzeriteItem.AzeriteItem(item_id, power_id)
+        session.add(azerite_item_obj)
+        session.commit()
+
+def addAzeriteTraits(raw_json, item_id):
+    for traits in raw_json:
+        # setup player class
+        player_class_name = traits["playable_class"]["name"]
+        player_class_id = traits["playable_class"]["id"]
+        addPlayerClassIfNotPresent(player_class_name, player_class_id)
+        addAzeriteTraitsForClass(item_id, traits["powers"], player_class_id)
+
+
 def addItemToDb(item_json_data):
     item_id = item_json_data["id"]
     if session.query(Item.Item).filter(Item.Item.itemId == item_id).first() is not None:
         return
-    print("item", item_id)
+    print(item_id)
     item_name = item_json_data["name"]
     item_media_id = item_json_data["media"]["id"]
     item_media_url = item_json_data["media"]["key"]["href"]
@@ -61,4 +114,8 @@ def addItemToDb(item_json_data):
         stat_dict = organizeStats(item_json_data["preview_item"]["stats"])
     item = Item.Item(item_id, item_class, item_subclass, item_name, item_media_id, item_inventory_type, **stat_dict)
     session.add(item)
+
+    if "azerite_class_powers" in item_json_data:
+        addAzeriteTraits(item_json_data["azerite_class_powers"], item_id)
+
     session.commit()

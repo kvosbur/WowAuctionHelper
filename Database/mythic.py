@@ -22,7 +22,6 @@ def addAllEncounters(encounter_data):
 
 def addAllEncounterItems(encounter_items_data):
     for encounter_id, encounter_items in encounter_items_data.items():
-        print(encounter_id)
         for encounter_item in encounter_items:
             item_id, item_name = encounter_item
             addItemById(item_id)

@@ -11,10 +11,7 @@ from GatherData import GetAuctionData, GetDungeonData, GetItemData, GetItemClass
 from websrc import app
 
 
-
-if __name__ == "__main__":
-
-
+def add_data_to_db():
     GetItemClassData.get_item_class_data()
 
     res = GetDungeonData.getMythicData()
@@ -25,23 +22,10 @@ if __name__ == "__main__":
     mythic.addAllEncounterItems(out)
 
 
-
+if __name__ == "__main__":
     # azerite 155860
     # normal piece 158371
-    res = GetItemData.get_item_data(158371)
-    '''
-    temp = res["azerite_class_powers"]
-    for i in temp:
-        print(i)
-        print(i["playable_class"])
-    '''
-
-    # 158371
-    for x in res["preview_item"]["stats"]:
-        print(x)
-
-    #item.addItemToDb(res)
-
+    a = 3
 
 
     #app.run()
