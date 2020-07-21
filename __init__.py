@@ -25,7 +25,8 @@ def add_data_to_db():
 if __name__ == "__main__":
     # azerite 155860
     # normal piece 158371
-    a = 3
 
-
+    temp = GetItemData.get_equipment_for_character("Ithenis")
+    #print(temp)
+    item.getAllAzeriteTraits(temp)
     #app.run()
