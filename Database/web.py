@@ -19,7 +19,14 @@ def get_user_by_id(user_id):
 
 
 def register_user(user_name):
+    if get_user_by_name(user_name):
+        return None
     obj = WebUser(uuid.uuid4().hex, user_name, '{}')
     session.add(obj)
     session.commit()
     return User(obj.userId, obj.userName, obj.data)
+
+
+def update_data(user_id, new_data):
+    session.query(WebUser).filter(WebUser.userId == user_id).update({WebUser.data: new_data})
+    session.commit()

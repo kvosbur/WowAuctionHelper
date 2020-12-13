@@ -1,0 +1,72 @@
+<!doctype html>
+<head>
+    <title>Wow Auctions</title>
+
+    <style>
+        .center {
+            text-align: center;
+        }
+
+        /* Create two columns/boxes that floats next to each other */
+        .navigation {
+          float: left;
+          width: 20%;
+          padding-left: 30px;
+          background: #ccc;
+        }
+
+        /* Style the list inside the menu */
+        .navigation ul {
+          list-style-type: none;
+          padding: 0;
+        }
+
+        .detail {
+          float: left
+          display: block;
+          text-align: center;
+          width: 80%;
+        }
+
+        .wrapper {
+            width: 100%;
+            clear: both;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 class="center">Auctions</h2>
+
+    <div class="wrapper">
+        <div class="navigation">
+            <form action="/auction/collections" method="post">
+                <p>New Collection: </p>
+                <input type="text" name="name" value=""/>
+                <input type="submit" value="Add"/>
+            </form>
+            <h4>Existing Collections</h4>
+            <ul>
+                {% for collection in Collections %}
+                <li><a href="/auction?collectionName={{collection}}">{{collection}}</a></li>
+                {% endfor %}
+
+            </ul>
+        </div>
+
+        <div class="detail">
+            {% if CollectionDetail != "" %}
+                <h4> There is a collection</h4>
+            {% else %}
+                <h4>Currently no collections made</h4>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+
+</body>
+
