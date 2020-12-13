@@ -3,3 +3,4 @@ python-dotenv
 flask
 sqlalchemy
 mysql-connector-python
+flask-login

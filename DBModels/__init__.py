@@ -13,5 +13,6 @@ from DBModels import PlayerClassSpecialization
 from DBModels import AzeriteTrait
 from DBModels import ClassSpecializationAzeriteRelation
 from DBModels import AzeriteItem
+from DBModels import WebUser
 
 

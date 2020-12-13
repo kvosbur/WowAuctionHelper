@@ -27,6 +27,7 @@ def add_all_auctions(auctions: GetAuction):
         obj = Auction(auction.id, item_id, auction.quantity, auction.buyout, auction.unit_price,
                               auction.bid, datetime.datetime.now())
         session.add(obj)
+    session.commit()
     print(count)
 
 
