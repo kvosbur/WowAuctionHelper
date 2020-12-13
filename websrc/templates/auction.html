@@ -90,6 +90,13 @@
                                 <td>{{(buyout or unitPrice) // 10000}}g {{((buyout or unitPrice) // 100) % 100}}s</td>
                                 <td>{{quantity}}</td>
                             {% endfor %}
+                            <td>
+                                <form action="/auction/collections/deleteItem" method="post">
+                                    <input type="hidden" name="name" value="{{ CollectionDetail.name }}">
+                                    <input type="hidden" name="itemName" value="{{ item }}"/>
+                                    <input type="submit"value="Remove"/>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
 

@@ -107,4 +107,20 @@ def add_item_to_collection():
 
     return redirect(url_for("get_auctions"))
 
+@app.route('/auction/collections/deleteItem', methods=["POST"])
+@login_required
+def remove_item_to_collection():
+    name = request.form.get("name", "")
+    itemName = request.form.get("itemName", "")
+    dataObj = json.loads(current_user.data)
+    if name != "" and name in dataObj and itemName != "":
+        if itemName in dataObj[name]["items"]:
+            dataObj[name]["items"].remove(itemName)
+            new_data = json.dumps(dataObj)
+            update_data(current_user.get_id(), new_data)
+            return redirect(url_for("get_auctions", collectionName=name, message="Item removed successfully"))
+        return redirect(url_for("get_auctions", collectionName=name, message="Item was not in collection"))
+
+    return redirect(url_for("get_auctions"))
+
 
