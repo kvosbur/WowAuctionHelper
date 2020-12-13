@@ -30,8 +30,11 @@ def addItemSubClassToDb(item_class_id: int, item_subclass_id: int, item_subclass
 
 
 def addItemById(item_id):
+    if session.query(Item).filter(Item.itemId == item_id).first() is not None:
+        return
     data = get_item_data(item_id)
-    addItemToDb(data)
+    if data is not None:
+        addItemToDb(data)
 
 
 def addMedia(media_url, media_id):
@@ -45,7 +48,7 @@ def addMedia(media_url, media_id):
 def organizeStats(raw_stats):
     ret = {}
     for stat in raw_stats:
-        if stat["type"]["type"] in Stats:
+        if "type" in stat and stat["type"]["type"] in Stats:
             ret[Stats[stat["type"]["type"]]] = 1
     return ret
 
@@ -106,7 +109,6 @@ def addItemToDb(item_json_data):
     item_id = item_json_data["id"]
     if session.query(Item).filter(Item.itemId == item_id).first() is not None:
         return
-    print(item_id)
     item_name = item_json_data["name"]
     item_media_id = item_json_data["media"]["id"]
     item_media_url = item_json_data["media"]["key"]["href"]
@@ -117,7 +119,10 @@ def addItemToDb(item_json_data):
 
     stat_dict = {}
     if "stats" in item_json_data["preview_item"].keys():
-        stat_dict = organizeStats(item_json_data["preview_item"]["stats"])
+        try:
+            stat_dict = organizeStats(item_json_data["preview_item"]["stats"])
+        except:
+            print(item_id, item_json_data)
     item = Item(item_id, item_class, item_subclass, item_name, item_media_id, item_inventory_type, **stat_dict)
     session.add(item)
 

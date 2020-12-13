@@ -3,7 +3,11 @@ from Models import character
 
 
 def get_item_data(item_id):
-    return apiObj.get_item_data(region, "static-8.3.0_32861-us", item_id, locale=locale)
+    try:
+        return apiObj.get_item_data(region, "static-us", item_id, locale=locale)
+    except:
+        print('error for: ', item_id)
+        return None
 
 
 def get_char_prof_summary(character_name):
