@@ -2,6 +2,7 @@ from flask import render_template, session, request, redirect, url_for
 from websrc import app
 from Database.web import get_user_by_name, register_user, update_data
 from Database.item import item_exists_by_name
+from Database.auction import get_auction_data
 from flask_login import login_user, login_required, current_user
 import hashlib
 from datetime import timedelta
@@ -53,6 +54,8 @@ def get_auctions():
         collectionName = request.args.get("collectionName", collections[0])
         collectionDetail = dataObj[collectionName]
         collectionDetail['name'] = collectionName
+        collectionDetail['auctions'] = get_auction_data(collectionDetail["items"], collectionDetail["count"])
+
         print(collectionDetail)
         return render_template("auction.html", Collections=collections, CollectionDetail=collectionDetail, message=message)
     return render_template("auction.html", Collections=collections, message=message)

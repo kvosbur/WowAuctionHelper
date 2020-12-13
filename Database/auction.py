@@ -1,7 +1,8 @@
 from Database import session
 import datetime
+from sqlalchemy import or_, func
 from DBModels.Auction import Auction
-from Database.item import addItemById
+from Database.item import addItemById, get_item_by_name
 from Models.auction import GetAuction
 
 def auction_exists(auctionId):
@@ -29,5 +30,17 @@ def add_all_auctions(auctions: GetAuction):
         session.add(obj)
     session.commit()
     print(count)
+
+
+def get_auction_data(items, amount_return):
+    data = {}
+    for item in items:
+        itemObj = get_item_by_name(item)
+        auctions = session.query(Auction.unitPrice, Auction.buyout, func.sum(Auction.quantity))\
+            .group_by(Auction.unitPrice, Auction.buyout)\
+            .filter(Auction.itemId == itemObj.itemId, or_(Auction.buyout != None, Auction.unitPrice != None))\
+            .order_by(Auction.unitPrice.asc()).limit(amount_return).all()
+        data[item] = auctions
+    return data
 
 

@@ -155,3 +155,7 @@ def getAllAzeriteTraits(character_obj):
 
 def item_exists_by_name(item_name):
     return session.query(Item).filter(Item.name == item_name).first() is not None
+
+
+def get_item_by_name(item_name):
+    return session.query(Item).filter(Item.name == item_name).first()
