@@ -40,4 +40,5 @@ if __name__ == "__main__":
     #temp = GetItemData.get_equipment_for_character("Ithenis")
     #print(temp)
     #item.getAllAzeriteTraits(temp)
+
     app.run()

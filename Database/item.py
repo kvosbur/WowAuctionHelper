@@ -11,6 +11,7 @@ from DBModels.AzeriteItem import AzeriteItem
 from Models import itemclass, itemsubclass
 from typing import List
 from GatherData.GetItemData import get_item_data
+from sqlalchemy import func
 
 
 def addAllItemClassToDb(item_class_data: List[itemclass.ItemClass]):
@@ -154,8 +155,8 @@ def getAllAzeriteTraits(character_obj):
 
 
 def item_exists_by_name(item_name):
-    return session.query(Item).filter(Item.name == item_name).first() is not None
+    return session.query(Item).filter(func.lower(Item.name) == item_name.lower()).first() is not None
 
 
 def get_item_by_name(item_name):
-    return session.query(Item).filter(Item.name == item_name).first()
+    return session.query(Item).filter(func.lower(Item.name) == item_name.lower()).first()

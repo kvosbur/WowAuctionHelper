@@ -1,5 +1,5 @@
 from flask import render_template, session, request, redirect, url_for
-from websrc import app
+from websrc import app, login_manager
 from Database.web import get_user_by_name, register_user, update_data
 from Database.item import item_exists_by_name
 from Database.auction import get_auction_data
@@ -7,6 +7,11 @@ from flask_login import login_user, login_required, current_user
 import hashlib
 from datetime import timedelta
 import json
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for("auction_login", error="Your session has expired"))
 
 
 @app.route("/auction/login", methods=["GET"])
@@ -58,7 +63,7 @@ def get_auctions():
 
         print(collectionDetail)
         return render_template("auction.html", Collections=collections, CollectionDetail=collectionDetail, message=message)
-    return render_template("auction.html", Collections=collections, message=message)
+    return render_template("auction.html", Collections=collections, CollectionDetail="", message=message)
 
 
 @app.route('/auction/collections', methods=["POST"])
