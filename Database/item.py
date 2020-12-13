@@ -1,5 +1,5 @@
 from Database import session
-from DBModels.Item import Item
+from DBModels.Item import Item, Stats
 from DBModels.ItemClass import ItemClass
 from DBModels.ItemSubClass import ItemSubClass
 from DBModels.Media import Media
@@ -23,10 +23,9 @@ def addAllItemClassToDb(item_class_data: List[itemclass.ItemClass]):
     session.commit()
 
 
-def addAllItemSubClassToDb(item_class_id: int, item_subclass_data: List[itemsubclass.ItemSubclass]):
-    for sub in item_subclass_data.item_subclasses:
-        item_subclass = ItemSubClass(sub.id, item_class_id, sub.name)
-        session.add(item_subclass)
+def addItemSubClassToDb(item_class_id: int, item_subclass_id: int, item_subclass_name: str):
+    item_subclass = ItemSubClass(item_subclass_id, item_class_id, item_subclass_name)
+    session.add(item_subclass)
     session.commit()
 
 
@@ -46,8 +45,8 @@ def addMedia(media_url, media_id):
 def organizeStats(raw_stats):
     ret = {}
     for stat in raw_stats:
-        if stat["type"]["type"] in Item.Stats:
-            ret[Item.Stats[stat["type"]["type"]]] = 1
+        if stat["type"]["type"] in Stats:
+            ret[Stats[stat["type"]["type"]]] = 1
     return ret
 
 
@@ -129,6 +128,21 @@ def addItemToDb(item_json_data):
 
 
 def getAllAzeriteTraits(character_obj):
-    res = session.query(AzeriteTrait).join(PlayerClass).join(AzeriteClassSpecialization).join(
-        PlayerClassSpecialization).all()
-    print(res)
+    overall = session.query(AzeriteTrait, PlayerClass).filter(AzeriteTrait.playerClassId == PlayerClass.playerClassId and
+                                                         character_obj.class_id == PlayerClass.playerClassId).all()
+    allowed = []
+    for item in overall:
+        spec_allowed = False
+        specificSpecs = session.query(AzeriteClassSpecialization).filter(AzeriteClassSpecialization.power_id == item[0].power_id).all()
+        if len(specificSpecs) > 0:
+            for spec in specificSpecs:
+                if spec.playerClassSpecId == character_obj.spec_id:
+                    spec_allowed = True
+        else:
+            spec_allowed = True
+
+        if spec_allowed:
+            allowed.append(item[0])
+
+    # returns list of AzeriteTrait for allowed traits for specified character
+    return allowed
