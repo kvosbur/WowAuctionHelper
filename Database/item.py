@@ -151,3 +151,7 @@ def getAllAzeriteTraits(character_obj):
 
     # returns list of AzeriteTrait for allowed traits for specified character
     return allowed
+
+
+def item_exists_by_name(item_name):
+    return session.query(Item).filter(Item.name == item_name).first() is not None

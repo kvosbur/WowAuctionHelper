@@ -40,6 +40,7 @@
 
     <h1 class="center">Auctions</h1>
     <h4>Logged In As: {{current_user.userName}}</h4>
+    <h2 class="center" style="color: red;">{{message}}</h2>
 
     <div class="wrapper">
         <div class="navigation">
@@ -65,6 +66,16 @@
                     <input type="text" name="newName" value="{{ CollectionDetail.name }}"/>
                     <input type="submit"value="Submit"/>
                 </form>
+                <form action="/auction/collections/addItem" method="post">
+                    <input type="hidden" name="name" value="{{ CollectionDetail.name }}">
+                    <h4 style="display: inline;">Add new Item:</h4>
+                    <input type="text" name="itemName" value=""/>
+                    <input type="submit"value="Submit"/>
+                </form>
+                <table>
+                    <th>Item Name</th>
+
+                </table>
 
             {% else %}
                 <h4>Currently no collections made</h4>
