@@ -1,11 +1,10 @@
-from flask import render_template, session, request, redirect, url_for
+from flask import render_template, request, redirect, url_for
 from websrc import app, login_manager
 from Database.web import get_user_by_name, register_user, update_data
 from Database.item import item_exists_by_name
-from Database.auction import get_auction_data
+from Database.auction import get_auction_data, get_most_recently_added_date
 from flask_login import login_user, login_required, current_user
 import hashlib
-from datetime import timedelta
 import json
 
 
@@ -55,15 +54,19 @@ def get_auctions():
     dataObj = json.loads(current_user.data)
     collections = list(dataObj.keys())
     print(current_user.id, current_user.data, current_user.userName)
+    last_updated = get_most_recently_added_date()[0].strftime('%H:%M:%S  %B %d, %Y')
     if len(collections) > 0:
         collectionName = request.args.get("collectionName", collections[0])
         collectionDetail = dataObj[collectionName]
         collectionDetail['name'] = collectionName
         collectionDetail['auctions'] = get_auction_data(collectionDetail["items"], collectionDetail["count"])
 
+        print()
+
         print(collectionDetail)
-        return render_template("auction.html", Collections=collections, CollectionDetail=collectionDetail, message=message)
-    return render_template("auction.html", Collections=collections, CollectionDetail="", message=message)
+        return render_template("auction.html", Collections=collections, CollectionDetail=collectionDetail, message=message,
+                               lastUpdated=last_updated)
+    return render_template("auction.html", Collections=collections, CollectionDetail="", message=message, lastUpdated=last_updated)
 
 
 @app.route('/auction/collections', methods=["POST"])

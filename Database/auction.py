@@ -65,3 +65,6 @@ def get_auction_data(items, amount_return):
     return data
 
 
+def get_most_recently_added_date():
+    return session.query(Auction.dateInserted).order_by(Auction.dateInserted.desc()).first()
+
