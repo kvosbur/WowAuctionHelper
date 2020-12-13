@@ -11,7 +11,7 @@ from GatherData import GetAuctionData, GetDungeonData, GetItemData, GetItemClass
 from websrc import app
 
 
-def add_data_to_db():
+def add_instance_info_to_db():
     GetItemClassData.get_item_class_data()
 
     res = GetDungeonData.getMythicData()
@@ -22,10 +22,16 @@ def add_data_to_db():
     mythic.addAllEncounterItems(out)
 
 
+def get_auction_info():
+    t = GetAuctionData.get_auction_data()
+    print(len(t))
+
+
 if __name__ == "__main__":
     # azerite 155860
     # normal piece 158371
-    add_data_to_db()
+    add_instance_info_to_db()
+    # get_auction_info()
 
     #temp = GetItemData.get_equipment_for_character("Ithenis")
     #print(temp)

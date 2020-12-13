@@ -2,7 +2,7 @@ import wowapi
 import os
 
 client_id = os.environ["Client_ID"]
-client_secret = os.environ["Client_SECRET"]
+client_secret = os.environ["Client_Secret"]
 
 realm_id = 1171
 # 1369

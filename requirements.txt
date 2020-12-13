@@ -1,0 +1,5 @@
+python-wowapi
+python-dotenv
+flask
+sqlalchemy
+mysql-connector-python
