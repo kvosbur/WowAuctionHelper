@@ -38,7 +38,8 @@
 
 <body>
 
-    <h2 class="center">Auctions</h2>
+    <h1 class="center">Auctions</h1>
+    <h4>Logged In As: {{current_user.userName}}</h4>
 
     <div class="wrapper">
         <div class="navigation">
@@ -52,13 +53,19 @@
                 {% for collection in Collections %}
                 <li><a href="/auction?collectionName={{collection}}">{{collection}}</a></li>
                 {% endfor %}
-
             </ul>
         </div>
 
         <div class="detail">
             {% if CollectionDetail != "" %}
-                <h4> There is a collection</h4>
+                <h2>{{ CollectionDetail.name }}</h2>
+                <form action="/auction/collections/changeName" method="post">
+                    <input type="hidden" name="name" value="{{ CollectionDetail.name }}">
+                    <h4 style="display: inline;">Change Name To:</h4>
+                    <input type="text" name="newName" value="{{ CollectionDetail.name }}"/>
+                    <input type="submit"value="Submit"/>
+                </form>
+
             {% else %}
                 <h4>Currently no collections made</h4>
             {% endif %}

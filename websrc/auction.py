@@ -50,6 +50,7 @@ def get_auctions():
     if len(collections) > 0:
         collectionName = request.args.get("collectionName") or collections[0]
         collectionDetail = dataObj[collectionName]
+        collectionDetail['name'] = collectionName
         print(collectionDetail)
         return render_template("auction.html", Collections=collections, CollectionDetail=collectionDetail)
     return render_template("auction.html", Collections=collections)
@@ -65,6 +66,22 @@ def add_collection():
         new_data = json.dumps(dataObj)
         update_data(current_user.get_id(), new_data)
         return redirect(url_for("get_auctions", collectionName=name))
+
+    return redirect(url_for("get_auctions"))
+
+
+@app.route('/auction/collections/changeName', methods=["POST"])
+@login_required
+def update_collection():
+    name = request.form.get("name", "")
+    newName = request.form.get("newName", "")
+    dataObj = json.loads(current_user.data)
+    if name != "" and name in dataObj and newName != "":
+        dataObj[newName] = dataObj[name]
+        dataObj.pop(name, None)
+        new_data = json.dumps(dataObj)
+        update_data(current_user.get_id(), new_data)
+        return redirect(url_for("get_auctions", collectionName=newName))
 
     return redirect(url_for("get_auctions"))
 
