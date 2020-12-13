@@ -87,7 +87,7 @@
                         <tr>
                             <td>{{item}}</td>
                             {% for unitPrice, buyout, quantity in auctions %}
-                                <td>{{buyout or unitPrice}}</td>
+                                <td>{{(buyout or unitPrice) // 10000}}g {{((buyout or unitPrice) // 100) % 100}}s</td>
                                 <td>{{quantity}}</td>
                             {% endfor %}
                         </tr>
