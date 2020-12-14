@@ -5,3 +5,10 @@ add mythic key tracking functionality to the site.
 dungeon drop loot functionality (recommend dungeons)
 
 # Character Equipment API can get current ilvl of gear
+
+# auction website improvements
+crafting helper cost of mats versus end product
+    DONE alter item data gathering to save purchase prices for vendor items.
+    Save all professions from index
+    find shadowlands skill tier for each
+    Go through each recipe and save all data for mats quantities

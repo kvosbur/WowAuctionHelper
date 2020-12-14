@@ -118,6 +118,7 @@ def addItemToDb(item_json_data):
     item_class = item_json_data["item_class"]["id"]
     item_subclass = item_json_data["item_subclass"]["id"]
     item_inventory_type = item_json_data["inventory_type"]["name"]
+    item_purchase_price = item_json_data["purchase_price"] if ("purchase_price" in item_json_data) else 0
 
     stat_dict = {}
     if "stats" in item_json_data["preview_item"].keys():
@@ -125,7 +126,8 @@ def addItemToDb(item_json_data):
             stat_dict = organizeStats(item_json_data["preview_item"]["stats"])
         except:
             print(item_id, item_json_data)
-    item = Item(item_id, item_class, item_subclass, item_name, item_media_id, item_inventory_type, **stat_dict)
+    item = Item(item_id, item_class, item_subclass, item_name, item_media_id, item_inventory_type, item_purchase_price,
+                **stat_dict)
     session.add(item)
 
     if "azerite_class_powers" in item_json_data:
