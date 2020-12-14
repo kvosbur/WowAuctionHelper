@@ -26,7 +26,9 @@ def add_all_auctions(auctions: GetAuction):
             print(count)
         item_id = auction.item.id
         if item_id != current_item:
-            addItemById(item_id)
+            resp = addItemById(item_id)
+            if resp is None:
+                continue
             current_item = item_id
 
         obj = Auction(auction.id, item_id, auction.quantity, auction.buyout, auction.unit_price,

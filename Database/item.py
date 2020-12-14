@@ -36,6 +36,7 @@ def addItemById(item_id):
     data = get_item_data(item_id)
     if data is not None:
         addItemToDb(data)
+    return data
 
 
 def addMedia(media_url, media_id):
