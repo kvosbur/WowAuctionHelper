@@ -12,3 +12,11 @@ crafting helper cost of mats versus end product
     Save all professions from index
     find shadowlands skill tier for each
     Go through each recipe and save all data for mats quantities
+    if auction id already exists update quantity
+
+    simulate buying 20  graph / plot min, max, average, std dev, overall average
+
+    give item search suggestions based on substring
+
+    show if items are craftable.
+    make items clickable to new page to show history of item

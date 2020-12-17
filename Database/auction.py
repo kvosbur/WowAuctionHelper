@@ -19,11 +19,8 @@ def add_all_auctions(auctions: GetAuction):
     current_item = auctions.auctions[0].item.id
     for auction in auctions.auctions:
         if auction_exists(auction.id):
-            clean_auction(auction.id)
+            clean_auction(auction.id, auction.quantity)
             continue
-        count += 1
-        if count % 1000 == 0:
-            print(count)
         item_id = auction.item.id
         if item_id != current_item:
             resp = addItemById(item_id)
@@ -42,8 +39,8 @@ def add_all_auctions(auctions: GetAuction):
     print(count)
 
 
-def clean_auction(auction_id):
-    session.query(Auction).filter(Auction.auctionId == auction_id).update({ Auction.dirty: 0 })
+def clean_auction(auction_id, new_quantity):
+    session.query(Auction).filter(Auction.auctionId == auction_id).update({ Auction.dirty: 0, Auction.quantity: new_quantity })
     session.commit()
 
 

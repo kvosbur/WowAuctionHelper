@@ -32,10 +32,11 @@ if __name__ == "__main__":
     # normal piece 158371
     # add_instance_info_to_db()
 
-    #start = time.time()
-    #get_auction_info()
-    #end = time.time()
-    #print(end - start)
+    start = time.time()
+    print(start)
+    get_auction_info()
+    end = time.time()
+    print(end - start)
 
     #temp = GetItemData.get_equipment_for_character("Ithenis")
     #print(temp)

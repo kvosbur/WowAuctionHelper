@@ -32,11 +32,12 @@ def addItemSubClassToDb(item_class_id: int, item_subclass_id: int, item_subclass
 
 def addItemById(item_id):
     if session.query(Item).filter(Item.itemId == item_id).first() is not None:
-        return
+        return item_id
     data = get_item_data(item_id)
     if data is not None:
         addItemToDb(data)
-    return data
+        return item_id
+    return None
 
 
 def addMedia(media_url, media_id):
