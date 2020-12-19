@@ -27,6 +27,7 @@ def add_all_auctions(auctions: GetAuction):
             if resp is None:
                 continue
             current_item = item_id
+            session.commit()
 
         obj = Auction(auction.id, item_id, auction.quantity, auction.buyout, auction.unit_price,
                               auction.bid, datetime.datetime.now())
