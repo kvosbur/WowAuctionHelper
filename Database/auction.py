@@ -32,7 +32,6 @@ def add_all_auctions(auctions: GetAuction):
                 continue
             current_item = item_id
 
-        print(auction.buyout)
         obj = Auction(auction.id, item_id, auction.quantity, auction.buyout, auction.unit_price,
                               auction.bid, datetime.datetime.now())
         session.add(obj)
