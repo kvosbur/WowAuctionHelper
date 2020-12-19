@@ -10,6 +10,7 @@ import time
 from Database import item, mythic
 from GatherData import GetAuctionData, GetDungeonData, GetItemData, GetItemClassData
 from websrc import app
+import argparse
 
 
 def add_instance_info_to_db():
@@ -27,18 +28,30 @@ def get_auction_info():
     t = GetAuctionData.get_auction_data()
 
 
+def init_argument_parser():
+    parser = argparse.ArgumentParser(description='Wow Auction Utility')
+    parser.add_argument('--update-data', action='store_true')
+    parser.add_argument('--run-webserver', action='store_true')
+
+    return parser
+
+
 if __name__ == "__main__":
     # azerite 155860
     # normal piece 158371
     # add_instance_info_to_db()
+    arguments = init_argument_parser().parse_args()
 
-    start = time.time()
-    get_auction_info()
-    end = time.time()
-    print(end - start)
+    if arguments.update_data:
+        start = time.time()
+        get_auction_info()
+        end = time.time()
+        print(end - start)
+
+    if arguments.run_webserver:
+        app.run()
 
     #temp = GetItemData.get_equipment_for_character("Ithenis")
     #print(temp)
     #item.getAllAzeriteTraits(temp)
 
-    app.run()

@@ -6,7 +6,6 @@ def get_item_data(item_id):
     try:
         return apiObj.get_item_data(region, "static-us", item_id, locale=locale)
     except:
-        print('error for: ', item_id)
         return None
 
 
