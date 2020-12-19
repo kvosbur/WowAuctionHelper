@@ -49,7 +49,7 @@
 
     <div class="wrapper">
         <div class="navigation">
-            <form action="/auction/collections" method="post">
+            <form action="/collections" method="post">
                 <p>New Collection: </p>
                 <input type="text" name="name" value=""/>
                 <input type="submit" value="Add"/>
@@ -65,13 +65,13 @@
         <div class="detail">
             {% if CollectionDetail != "" %}
                 <h2>{{ CollectionDetail.name }}</h2>
-                <form action="/auction/collections/changeName" method="post">
+                <form action="/collections/changeName" method="post">
                     <input type="hidden" name="name" value="{{ CollectionDetail.name }}">
                     <h4 style="display: inline;">Change Name To:</h4>
                     <input type="text" name="newName" value="{{ CollectionDetail.name }}"/>
                     <input type="submit"value="Submit"/>
                 </form>
-                <form action="/auction/collections/addItem" method="post">
+                <form action="collections/addItem" method="post">
                     <input type="hidden" name="name" value="{{ CollectionDetail.name }}">
                     <h4 style="display: inline;">Add new Item:</h4>
                     <input type="text" name="itemName" value=""/>
@@ -92,7 +92,7 @@
                                 <td>{{quantity}}</td>
                             {% endfor %}
                             <td>
-                                <form action="/auction/collections/deleteItem" method="post">
+                                <form action="/collections/deleteItem" method="post">
                                     <input type="hidden" name="name" value="{{ CollectionDetail.name }}">
                                     <input type="hidden" name="itemName" value="{{ item }}"/>
                                     <input type="submit"value="Remove"/>
