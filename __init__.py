@@ -25,6 +25,7 @@ def add_instance_info_to_db():
 
 
 def get_auction_info():
+    GetItemClassData.get_item_class_data()
     t = GetAuctionData.get_auction_data()
 
 
