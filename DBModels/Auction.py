@@ -14,6 +14,7 @@ class Auction(Base):
     unitPrice = Column(Integer)
     bid = Column(Integer)
     dateInserted = Column(DateTime)
+    dateRemoved = Column(DateTime)
     dirty = Column(Integer)
 
     def __init__(self, auctionId: int, itemId: int, quantity: int, buyout: int, unitPrice: int, bid: int, dateInserted: datetime):
@@ -25,4 +26,5 @@ class Auction(Base):
         self.bid = bid
         self.dateInserted = dateInserted
         self.dirty = 0
+        self.dateRemoved = None
 

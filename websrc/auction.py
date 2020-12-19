@@ -13,13 +13,13 @@ def unauthorized():
     return redirect(url_for("auction_login", error="Your session has expired"))
 
 
-@app.route("/auction/login", methods=["GET"])
+@app.route("/login", methods=["GET"])
 def auction_login():
     error = request.args.get("error", "")
     return render_template("login.html", Error=error)
 
 
-@app.route("/auction/user", methods=["POST"])
+@app.route("/user", methods=["POST"])
 def do_auction_login():
     password = request.form.get("password", "")
     login = request.form.get("login", "")
@@ -47,7 +47,7 @@ def do_auction_login():
         return redirect(url_for('get_auctions'))
 
 
-@app.route('/auction', methods=["GET"])
+@app.route('/', methods=["GET"])
 @login_required
 def get_auctions():
     message = request.args.get("message", "")
@@ -69,7 +69,7 @@ def get_auctions():
     return render_template("auction.html", Collections=collections, CollectionDetail="", message=message, lastUpdated=last_updated)
 
 
-@app.route('/auction/collections', methods=["POST"])
+@app.route('/collections', methods=["POST"])
 @login_required
 def add_collection():
     name = request.form.get("name", "")
@@ -83,7 +83,7 @@ def add_collection():
     return redirect(url_for("get_auctions"))
 
 
-@app.route('/auction/collections/changeName', methods=["POST"])
+@app.route('/collections/changeName', methods=["POST"])
 @login_required
 def update_collection():
     name = request.form.get("name", "")
@@ -99,7 +99,7 @@ def update_collection():
     return redirect(url_for("get_auctions"))
 
 
-@app.route('/auction/collections/addItem', methods=["POST"])
+@app.route('/collections/addItem', methods=["POST"])
 @login_required
 def add_item_to_collection():
     name = request.form.get("name", "")
@@ -115,7 +115,7 @@ def add_item_to_collection():
 
     return redirect(url_for("get_auctions"))
 
-@app.route('/auction/collections/deleteItem', methods=["POST"])
+@app.route('/collections/deleteItem', methods=["POST"])
 @login_required
 def remove_item_to_collection():
     name = request.form.get("name", "")

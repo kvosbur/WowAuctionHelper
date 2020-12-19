@@ -20,3 +20,5 @@ crafting helper cost of mats versus end product
 
     show if items are craftable.
     make items clickable to new page to show history of item
+
+    https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uwsgi-and-nginx-on-ubuntu-20-04#step-5-%E2%80%94-creating-a-systemd-unit-file

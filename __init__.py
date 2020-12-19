@@ -33,7 +33,6 @@ if __name__ == "__main__":
     # add_instance_info_to_db()
 
     start = time.time()
-    print(start)
     get_auction_info()
     end = time.time()
     print(end - start)

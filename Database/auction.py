@@ -45,12 +45,12 @@ def clean_auction(auction_id, new_quantity):
 
 
 def set_auctions_dirty():
-    session.query(Auction).update({ Auction.dirty: 1 })
+    session.query(Auction).filter(Auction.dirty == 0).update({ Auction.dirty: 1 })
     session.commit()
 
 
 def remove_dirty_auctions():
-    session.query(Auction).filter(Auction.dirty == 1).delete()
+    session.query(Auction).filter(Auction.dirty == 1).update({ Auction.dateRemoved: datetime.datetime.now() })
     session.commit()
 
 

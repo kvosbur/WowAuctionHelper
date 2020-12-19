@@ -4,7 +4,7 @@ from GatherData import GetItemData
 import pickle
 
 
-@app.route("/")
+#@app.route("/")
 def dungeonSuggest():
     try:
         characterObj = pickle.loads(session["characterObject"])
@@ -15,7 +15,7 @@ def dungeonSuggest():
     return render_template("dungeon.html", Description=description)
 
 
-@app.route("/dungeonSubmit", methods=["POST"])
+#@app.route("/dungeonSubmit", methods=["POST"])
 def dungeonSubmit():
     characterName = request.form.get("characterName", "")
     characterObj = None
