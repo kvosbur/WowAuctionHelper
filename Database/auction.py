@@ -17,6 +17,7 @@ def add_all_auctions(auctions: GetAuction):
     auctions.auctions.sort(key=lambda auc: auc.item.id)
     set_auctions_dirty()
     current_item = auctions.auctions[0].item.id
+    addItemById(current_item)
     for auction in auctions.auctions:
         if auction_exists(auction.id):
             clean_auction(auction.id, auction.quantity)
