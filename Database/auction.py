@@ -25,7 +25,7 @@ def add_all_auctions(auctions: GetAuction):
         if item_id != current_item:
             resp = addItemById(item_id)
             if resp is None:
-                item_id = None
+                item_id = -1
             current_item = item_id
 
         obj = Auction(auction.id, item_id, auction.quantity, auction.buyout, auction.unit_price,
@@ -59,7 +59,7 @@ def get_auction_data(items, amount_return):
         itemObj = get_item_by_name(item)
         auctions = session.query(Auction.unitPrice, Auction.buyout, func.sum(Auction.quantity))\
             .group_by(Auction.unitPrice, Auction.buyout)\
-            .filter(Auction.itemId == itemObj.itemId, or_(Auction.buyout != None, Auction.unitPrice != None))\
+            .filter(Auction.itemId != -1, Auction.itemId == itemObj.itemId, or_(Auction.buyout != None, Auction.unitPrice != None))\
             .order_by(Auction.unitPrice.asc()).limit(amount_return).all()
         data[item] = auctions
     return data
