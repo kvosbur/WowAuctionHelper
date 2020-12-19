@@ -20,7 +20,8 @@ def add_all_auctions(auctions: GetAuction):
     addItemById(current_item)
     count = 0
     for auction in auctions.auctions:
-        if count % 2000 == 0:
+        count += 1
+        if count % 2000 == 0 and count != 0:
             print("Amount Processed:", count)
         if auction_exists(auction.id):
             clean_auction(auction.id, auction.quantity)
@@ -36,7 +37,7 @@ def add_all_auctions(auctions: GetAuction):
                               auction.bid, datetime.datetime.now())
         session.add(obj)
         session.commit()
-        count += 1
+
 
     remove_dirty_auctions()
     session.commit()
