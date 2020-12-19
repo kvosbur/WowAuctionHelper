@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, BIGINT, ForeignKey, DateTime
 from DBModels import Base
 from datetime import datetime
 from DBModels.Item import Item
@@ -10,9 +10,9 @@ class Auction(Base):
     auctionId = Column(Integer, primary_key=True)
     itemId = Column(Integer, ForeignKey(Item.itemId))
     quantity = Column(Integer)
-    buyout = Column(Integer)
-    unitPrice = Column(Integer)
-    bid = Column(Integer)
+    buyout = Column(BIGINT)
+    unitPrice = Column(BIGINT)
+    bid = Column(BIGINT)
     dateInserted = Column(DateTime)
     dateRemoved = Column(DateTime)
     dirty = Column(Integer)
