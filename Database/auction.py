@@ -18,22 +18,26 @@ def add_all_auctions(auctions: GetAuction):
     set_auctions_dirty()
     current_item = auctions.auctions[0].item.id
     addItemById(current_item)
+    count = 0
     for auction in auctions.auctions:
+        if count % 2000 == 0:
+            print("Amount Processed:", count)
         if auction_exists(auction.id):
             clean_auction(auction.id, auction.quantity)
             continue
         item_id = auction.item.id
         if item_id != current_item:
             resp = addItemById(item_id)
-            print('trying for ', item_id, 'result', resp)
             if resp is None:
                 continue
             current_item = item_id
 
+        print(auction.buyout)
         obj = Auction(auction.id, item_id, auction.quantity, auction.buyout, auction.unit_price,
                               auction.bid, datetime.datetime.now())
         session.add(obj)
         session.commit()
+        count += 1
 
     remove_dirty_auctions()
     session.commit()

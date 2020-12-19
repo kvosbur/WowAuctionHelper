@@ -13,9 +13,11 @@ from websrc import app
 import argparse
 
 
-def add_instance_info_to_db():
+def initial_db_setup():
     GetItemClassData.get_item_class_data()
 
+
+def add_instance_info_to_db():
     res = GetDungeonData.getMythicData()
     mythic.addAllDungeons(res)
     o = GetDungeonData.getEncounters(res)
@@ -25,12 +27,12 @@ def add_instance_info_to_db():
 
 
 def get_auction_info():
-    GetItemClassData.get_item_class_data()
-    t = GetAuctionData.get_auction_data()
+    GetAuctionData.get_auction_data()
 
 
 def init_argument_parser():
     parser = argparse.ArgumentParser(description='Wow Auction Utility')
+    parser.add_argument('--initial-setup', action='store_true')
     parser.add_argument('--update-data', action='store_true')
     parser.add_argument('--run-webserver', action='store_true')
 
@@ -42,6 +44,9 @@ if __name__ == "__main__":
     # normal piece 158371
     # add_instance_info_to_db()
     arguments = init_argument_parser().parse_args()
+
+    if arguments.initial_setup:
+        initial_db_setup()
 
     if arguments.update_data:
         start = time.time()
